@@ -1,15 +1,17 @@
 FROM python:3.8
 
-COPY . /opt/app
+WORKDIR /opt/app
+
+COPY . .
 
 RUN pip install virtualenv
 
-RUN virtualenv /opt/app/venv
+RUN virtualenv venv
 ENV PATH /opt/app/venv/bin:$PATH
 
-RUN pip install -r /opt/app/requirements.txt
+RUN pip install -r requirements.txt
 
-ENV FLASK_APP /opt/app/app.py
+ENV FLASK_APP app.py
 
 ENTRYPOINT ["flask", "run"]
 CMD ["--host=0.0.0.0"]
