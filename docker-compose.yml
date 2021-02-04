@@ -1,9 +1,50 @@
 version: "3.8"
 
 services:
-    app:
+    meteo-db:
         build:
-            context: ./app
+            context: ./meteo-db
+            dockerfile: Dockerfile
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        volumes:
+            - db-data:/var/lib/postgresql/data:delegated
+        container_name: "meteo-db"
+        networks:
+            - meteo-network
+
+    meteo-app:
+        build:
+            context: ./meteo-app
             dockerfile: Dockerfile
         ports:
             - 5000:5000
+        container_name: "meteo-app"
+        networks:
+            - meteo-network
+        depends_on:
+            - "meteo-db"
+
+    meteo-flow:
+        build:
+            context: ./meteo-flow
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+        environment:
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@meteo-db/meteo
+        container_name: "meteo-flow"
+        networks:
+            - meteo-network
+        depends_on:
+            - "meteo-db"
+
+volumes:
+    db-data:
+
+networks:
+    meteo-network:
+        driver: bridge
