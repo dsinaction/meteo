@@ -2,10 +2,6 @@
 __pycache__/
 *.py[cod]
 
-# Environments
-.venv
-env/
+# Virtual Environments & Logs
 venv/
-ENV/
-env.bak/
-venv.bak/
+logs/

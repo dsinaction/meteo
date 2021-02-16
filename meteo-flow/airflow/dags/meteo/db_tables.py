@@ -1,0 +1,6 @@
+request = "imgw.request"
+temporary_file = "imgw.temporary_file"
+weather_daily = "imgw.synop_daily"
+weather_hourly = "imgw.synop_hourly"
+station = "imgw.station"
+station_id_mapping = "imgw.station_id_mapping"
