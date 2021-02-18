@@ -6,7 +6,7 @@ from airflow.utils.dates import days_ago
 from airflow.utils.trigger_rule import TriggerRule
 
 from meteo.sensors import NewRequestSensor
-from meteo.operators import SetRequestStatusOperator, DownloadFileOperator, ProcessFileOperator
+from meteo.operators import SetRequestStatusOperator, DownloadFileOperator, ProcessFileOperator, ExecuteQueryOperator
 
 
 def set_status(status, trigger_rule=TriggerRule.ALL_SUCCESS, increase_attempts=True):
@@ -64,7 +64,19 @@ with DAG(
         sensor_id="request_sensor",
     )
 
-    request_sensor >> download_file >> process_file
+    refresh_views = ExecuteQueryOperator(
+        task_id="refresh_views",
+        conn_id="meteo-db",
+        database="meteo",
+        query="""
+        SET search_path TO imgw;
+        REFRESH MATERIALIZED VIEW CONCURRENTLY synop_monthly;
+        """
+    )
 
-    process_file >> set_status("COMPLETE", TriggerRule.NONE_FAILED)
-    process_file >> set_status("FAILURE", TriggerRule.ONE_FAILED)
+    complete = set_status("COMPLETE", TriggerRule.NONE_FAILED)
+    failure = set_status("FAILURE", TriggerRule.ONE_FAILED)
+
+    request_sensor >> download_file >> process_file
+    process_file >> complete >> refresh_views
+    process_file >> failure

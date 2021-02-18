@@ -14,6 +14,21 @@ from meteo.utils import get_cls, MeteoFilesHunter
 from psycopg2 import sql
 
 
+class ExecuteQueryOperator(BaseOperator, PostgresSQLExecuteMixin):
+
+    def __init__(self, conn_id, database, query, *args, **kwargs):
+        super(ExecuteQueryOperator, self).__init__(*args, **kwargs)
+        self.postgres_conn_id = conn_id
+        self.database = database
+        self.query = query
+
+    def execute(self, context):
+        self.execute_query(self.get_query(), fetch_one=False, fetch_all=False, commit=True)
+
+    def get_query(self):
+        return self.query
+
+
 class SetRequestStatusOperator(BaseOperator, PostgresSQLExecuteMixin):
 
     def __init__(self, conn_id, database, sensor_id, status, increase_attempts=False, *args, **kwargs):
