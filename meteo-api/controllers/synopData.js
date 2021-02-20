@@ -1,7 +1,13 @@
 const db = require('../db')
 
-exports.getAllStations = async (req, res, next) => {
-    const { rows, rowCount } = await db.query('SELECT id, name, latitude, longitude FROM imgw.station')
+
+exports.getMonthlyData = async (req, res, next) => {
+    const query = `
+    SELECT
+        station_id, date, tmax, tmin, tavg
+    FROM imgw.synop_monthly
+    `
+    const { rows, rowCount } = await db.query(query)
     res.status(200).json({
         status: "success",
         results: rowCount,
@@ -9,28 +15,31 @@ exports.getAllStations = async (req, res, next) => {
     })
 }
 
-exports.getStation = async (req, res, next) => {
+exports.getMonthlyDataForStation = async (req, res, next) => {
     const { id } = req.params
     const stationId = Number(id)
 
+    const query = `
+    SELECT
+        station_id, date, tmax, tmin, tavg,
+        days_in_month
+    FROM imgw.synop_monthly
+    WHERE station_id = $1
+    `
+
     if (Number.isInteger(stationId)) {
-        const query = `
-        SELECT
-            id, name, latitude, longitude
-        FROM imgw.station
-        WHERE id = $1
-        `
         const { rows, rowCount } = await db.query(query, [stationId])
 
         if (rowCount == 0) {
             res.status(404).json({
                 "status": "Failure",
-                "message": "Station Not Found"
+                "message": "No Records For Station"
             })
         } else {
             res.status(200).json({
-                status: "Success",
-                data: rows[0]
+                status: "success",
+                results: rowCount,
+                data: rows
             })
         }
     } else {

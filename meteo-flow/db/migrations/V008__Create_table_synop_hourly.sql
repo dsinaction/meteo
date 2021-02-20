@@ -1,7 +1,7 @@
 SET search_path TO imgw;
 
 CREATE TABLE synop_hourly (
-    station_id BIGINT NOT NULL REFERENCES imgw.station (id),
+    station_id BIGINT NOT NULL,
     date DATE NOT NULL,
     hour SMALLINT NOT NULL,
     temperature NUMERIC NOT NULL,
