@@ -29,6 +29,9 @@ app.use(hpp())
 const stationRoute = require("./routes/station")
 app.use("/api/v1/stations", stationRoute)
 
+const synopDataRoutes = require("./routes/synopData")
+app.use("/api/v1/synop", synopDataRoutes)
+
 app.use('*', (req, res, next) => {
     res.status(404).json({
         "status": "Failure",
