@@ -42,6 +42,24 @@ services:
         depends_on:
             - "meteo-db"
 
+    meteo-api:
+        build:
+            context: ./meteo-api
+            dockerfile: Dockerfile
+        ports:
+            - 8081:8081
+        environment:
+            - PGUSER=postgres
+            - PGHOST=meteo-db
+            - PGPASSWORD=postgres
+            - PGDATABASE=meteo
+            - PGPORT=5432
+        container_name: meteo-api
+        networks:
+          - meteo-network
+        depends_on:
+          - meteo-db
+
 volumes:
     db-data:
 
