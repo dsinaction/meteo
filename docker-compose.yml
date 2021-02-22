@@ -47,7 +47,7 @@ services:
             context: ./meteo-api
             dockerfile: Dockerfile
         ports:
-            - 8081:8081
+            - 8090:8090
         environment:
             - PGUSER=postgres
             - PGHOST=meteo-db

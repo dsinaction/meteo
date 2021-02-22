@@ -4,7 +4,7 @@ const db = require('../db')
 exports.getMonthlyData = async (req, res, next) => {
     const query = `
     SELECT
-        station_id, date, tmax, tmin, tavg
+        station_id, date::DATE AS date, tmax, tmin, tavg
     FROM imgw.synop_monthly
     `
     const { rows, rowCount } = await db.query(query)
@@ -19,12 +19,15 @@ exports.getMonthlyDataForStation = async (req, res, next) => {
     const { id } = req.params
     const stationId = Number(id)
 
+    console.log(`Data for ${stationId}`)
+
     const query = `
     SELECT
-        station_id, date, tmax, tmin, tavg,
+        station_id, date::DATE AS date, tmax, tmin, tavg, year, month,
         days_in_month
     FROM imgw.synop_monthly
     WHERE station_id = $1
+    ORDER BY date DESC;
     `
 
     if (Number.isInteger(stationId)) {
