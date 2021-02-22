@@ -12,9 +12,9 @@ app.use(cors())
 app.use(helmet())
 
 const limiter = rateLimit({
-    max: 150,
-    windowMs: 60 * 60 * 1000,
-    message: "Too Many Request from this IP, please try again in an hour"
+   max: 150,
+   windowMs: 60 * 60 * 1000,
+   message: "Too Many Request from this IP, please try again in an hour"
 })
 app.use("/api", limiter)
 
