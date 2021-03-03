@@ -1,13 +1,22 @@
 const db = require('../db')
 
 exports.getAllStations = async (req, res, next) => {
-    const { rows, rowCount } = await db.query('SELECT id, name, latitude, longitude FROM imgw.station')
+    const query = `
+    SELECT 
+        id, name, latitude, longitude,
+        synop_daily_records,
+        synop_min_date, synop_max_date
+    FROM imgw.station_summary
+    WHERE synop_daily_records > 0
+    `
+    const { rows, rowCount } = await db.query(query)
     res.status(200).json({
         status: "success",
         results: rowCount,
         data: rows
     })
 }
+
 
 exports.getStation = async (req, res, next) => {
     const { id } = req.params
