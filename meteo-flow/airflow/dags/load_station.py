@@ -27,7 +27,7 @@ with DAG(
     catchup=False
 ) as dag:
     load_station = LoadStationsOperator(
-        task_id="generate_request",
+        task_id="load_stations",
         conn_id="meteo-db",
         database="meteo"
     )

@@ -6,8 +6,7 @@ CREATE TABLE station (
     latitude NUMERIC,
     longitude NUMERIC,
     a SMALLINT,
-    s TEXT,
-    id_station_hourly DATE GENERATED ALWAYS AS (12000 + id % 10000) STORED,
+    s TEXT
 );
 
 -- Table with mapping between some id and station_id.

@@ -3,7 +3,7 @@ SET search_path TO imgw;
 -- http://danepubliczne.imgw.pl/data/dane_pomiarowo_obserwacyjne/dane_meteorologiczne/dobowe/synop/
 
 CREATE TABLE synop_daily (
-    station_id BIGINT NOT NULL REFERENCES imgw.station (id),
+    station_id BIGINT NOT NULL,
     date DATE GENERATED ALWAYS AS (make_date(year, month, day)) STORED,
     year SMALLINT NOT NULL,
     month SMALLINT NOT NULL,

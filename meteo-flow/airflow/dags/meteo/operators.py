@@ -272,9 +272,9 @@ class LoadStationsOperator(BaseOperator, PostgresSQLExecuteMixin):
         return data
 
     def create_insert_query(self, stations):
-        query = f"INSERT INTO {table.station} (station_id, name, latitude, longitude, a, s) VALUES "
-        query += ",".join("({station_id}, '{name}', {latitude}, {longitude}, {a}, '{s}')".format(
-            station_id=station["i"],
+        query = f"INSERT INTO {table.station} (id, name, latitude, longitude, a, s) VALUES "
+        query += ",".join("({id}, '{name}', {latitude}, {longitude}, {a}, '{s}')".format(
+            id=station["i"],
             name=station["n"],
             latitude=station["la"],
             longitude=station["lo"],

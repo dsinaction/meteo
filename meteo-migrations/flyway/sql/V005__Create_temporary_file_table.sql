@@ -11,4 +11,4 @@ CREATE TABLE temporary_file (
 CREATE TRIGGER set_temporary_file_updated_at
 BEFORE UPDATE ON temporary_file
 FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_updated_at();
+EXECUTE PROCEDURE imgw.trigger_set_updated_at();
