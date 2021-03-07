@@ -40,7 +40,7 @@ RUN pip install -r requirements.txt
 
 COPY docker-entrypoint.sh .
 COPY ./airflow airflow
-COPY ./db db
+COPY ./flyway flyway
 
 ENV AIRFLOW_HOME $APP_PATH/airflow
 

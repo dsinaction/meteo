@@ -13,4 +13,4 @@ CREATE TABLE request (
 CREATE TRIGGER set_imgw_request_updated_at
 BEFORE UPDATE ON request
 FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_updated_at();
+EXECUTE PROCEDURE imgw.trigger_set_updated_at();

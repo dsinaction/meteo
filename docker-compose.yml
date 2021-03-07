@@ -8,25 +8,28 @@ services:
         ports:
             - 5432:5432
         environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
         volumes:
             - db-data:/var/lib/postgresql/data:delegated
-        container_name: "meteo-db"
+        container_name: meteo-db
         networks:
             - meteo-network
 
-    meteo-app:
-        build:
-            context: ./meteo-app
-            dockerfile: Dockerfile
-        ports:
-            - 5000:5000
-        container_name: "meteo-app"
+    meteo-migrations:
+        image: flyway/flyway
+        command: -configFiles=/flyway/conf/flyway.conf -locations=filesystem:/flyway/sql -connectRetries=60 migrate
+        volumes:
+            - ${PWD}/meteo-migrations/flyway/sql:/flyway/sql
+            - ${PWD}/meteo-migrations/flyway/conf/flyway.conf:/flyway/conf/flyway.conf
+        container_name: meteo-migrations
+        environment:
+            - FLYWAY_USER=${FLYWAY_USER}
+            - FLYWAY_PASSWORD=${FLYWAY_PASSWORD}
         networks:
             - meteo-network
         depends_on:
-            - "meteo-db"
+            - meteo-db
 
     meteo-flow:
         build:
@@ -35,8 +38,26 @@ services:
         ports:
             - 8080:8080
         environment:
-            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@meteo-db/meteo
+            - FLYWAY_USER=${FLYWAY_USER}
+            - FLYWAY_PASSWORD=${FLYWAY_PASSWORD}
+            - FLYWAY_PLACEHOLDERS_AIRFLOW_USER=${AIRFLOW_DB_USER}
+            - FLYWAY_PLACEHOLDERS_AIRFLOW_PASSWORD=${AIRFLOW_DB_PASSWORD}
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@meteo-db/meteo
         container_name: "meteo-flow"
+        networks:
+            - meteo-network
+        depends_on:
+            - meteo-db
+            - meteo-migrations
+        restart: always
+
+    meteo-app:
+        build:
+            context: ./meteo-app
+            dockerfile: Dockerfile
+        ports:
+            - 5000:5000
+        container_name: "meteo-app"
         networks:
             - meteo-network
         depends_on:
