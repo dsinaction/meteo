@@ -9,6 +9,9 @@ CREATE TABLE station (
     s TEXT
 );
 
+INSERT INTO station (id, name) VALUES
+('1', 'POLSKA');
+
 -- Table with mapping between some id and station_id.
 -- Station from hourly reports have different id than from daily report.
 CREATE TABLE station_id_mapping (
