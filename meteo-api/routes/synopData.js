@@ -15,4 +15,8 @@ router
     .route("/monthly/deviance/:id")
     .get(synopDataController.getMonthlyDevianceForStation);
 
+router
+    .route("/monthly/ci/:id")
+    .get(synopDataController.getConfidenceIntervalsForStation);
+
 module.exports = router;
