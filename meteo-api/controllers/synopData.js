@@ -111,3 +111,17 @@ exports.getMonthlyDevianceForStation = async (req, res, next) => {
     `
     await getRecordsForStation(req, res, query)
 }
+
+
+exports.getConfidenceIntervalsForStation = async (req, res, next) => {
+    const query = `
+    SELECT
+        A.station_id, A.month,
+        A.n, A.mean, A.stddev,
+        A.ci_lower, A.ci_upper
+    FROM imgw.confidence_interval AS A
+    WHERE A.station_id = $1
+    ORDER BY A.month ASC;
+    `
+    await getRecordsForStation(req, res, query)
+}
