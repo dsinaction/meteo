@@ -2,12 +2,14 @@ const db = require('../db')
 
 exports.getAllStations = async (req, res, next) => {
     const query = `
-    SELECT 
+    SELECT
         id, name, latitude, longitude,
         synop_daily_records,
-        synop_min_date, synop_max_date
+        synop_min_date, synop_max_date,
+        last_synop_date,
+        last_tmax, last_tmin, last_tavg
     FROM imgw.station_summary
-    WHERE synop_daily_records > 0
+    WHERE synop_daily_records > 0 OR id = 1
     `
     const { rows, rowCount } = await db.query(query)
     res.status(200).json({
