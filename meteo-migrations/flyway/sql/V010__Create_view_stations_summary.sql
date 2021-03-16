@@ -35,9 +35,9 @@ SELECT
     B.synop_min_date,
     B.synop_max_date,
     C.date AS last_synop_date,
-    C.tmax,
-    C.tmin,
-    C.tavg
+    C.tmax AS last_tmax,
+    C.tmin AS last_tmin,
+    C.tavg AS last_tavg
 FROM station AS A
     LEFT JOIN aggr AS B
         ON A.id = B.station_id
