@@ -4,7 +4,7 @@ CREATE MATERIALIZED VIEW synop_monthly AS
 WITH data AS (
     SELECT
         A.station_id,
-        date_trunc('month', A.date) ::DATE AS date,
+        date_trunc('month', A.date)::DATE AS date,
         A.year, A.month,
         count(*) AS days_in_month,
         max(A.tmax) AS tmax,
