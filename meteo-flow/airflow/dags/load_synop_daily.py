@@ -72,6 +72,7 @@ with DAG(
         SET search_path TO imgw;
         REFRESH MATERIALIZED VIEW CONCURRENTLY synop_monthly;
         REFRESH MATERIALIZED VIEW CONCURRENTLY station_summary;
+        REFRESH MATERIALIZED VIEW CONCURRENTLY confidence_interval;
         """
     )
 
