@@ -38,6 +38,7 @@ exports.getMonthlyData = async (req, res, next) => {
     const query = `
     SELECT
         station_id, date::DATE AS date, 
+        year, month,
         tmax, tmin, tavg
     FROM imgw.synop_monthly
     `
@@ -53,7 +54,8 @@ exports.getMonthlyData = async (req, res, next) => {
 exports.getMonthlyDataForStation = async (req, res, next) => {
     const query = `
     SELECT
-        station_id, date::DATE AS date, 
+        station_id, date::DATE AS date,
+        year, month,
         round(tmax, 4) AS tmax, 
         round(tmin, 4) AS tmin,
         round(tavg, 4) AS tavg,
@@ -88,6 +90,35 @@ exports.getMovingAverageDataForStation = async (req, res, next) => {
     await getRecordsForStation(req, res, query)
 }
 
+
+exports.getMonthlyDeviance = async (req, res, next) => {
+    const query = `
+    WITH
+    yearly_average AS (
+        SELECT
+            A.station_id, A.month,
+            avg(A.tavg) AS yavg
+        FROM imgw.synop_monthly AS A
+        GROUP BY 1, 2
+    )
+    ,last_date AS (
+        SELECT MAX(A.date) AS value
+        FROM imgw.synop_monthly AS A
+    )
+    SELECT
+        A.station_id, A.date::DATE AS date, A.year, A.month,
+        round(A.tavg, 4) AS tavg,
+        round(B.yavg, 4) AS yavg,
+        round(A.tavg - B.yavg, 4) AS tavg_dev
+    FROM imgw.synop_monthly AS A
+        INNER JOIN yearly_average AS B
+            ON A.station_id = B.station_id AND A.month = B.month
+        INNER JOIN last_date AS C
+            ON A.date = C.value
+    ORDER BY A.date ASC;
+    `
+    await getRecordsForStation(req, res, query)
+}
 
 exports.getMonthlyDevianceForStation = async (req, res, next) => {
     const query = `

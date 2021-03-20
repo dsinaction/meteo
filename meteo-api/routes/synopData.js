@@ -12,6 +12,10 @@ router
     .get(synopDataController.getMovingAverageDataForStation);
 
 router
+    .route("/monthly/deviance")
+    .get(synopDataController.getMonthlyDeviance)
+
+router
     .route("/monthly/deviance/:id")
     .get(synopDataController.getMonthlyDevianceForStation);
 
