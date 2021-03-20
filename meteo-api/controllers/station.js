@@ -7,7 +7,8 @@ exports.getAllStations = async (req, res, next) => {
         synop_daily_records,
         synop_min_date, synop_max_date,
         last_synop_date,
-        last_tmax, last_tmin, last_tavg
+        last_tmax, last_tmin, last_tavg,
+        yavg, last_tavg_dev
     FROM imgw.station_summary
     WHERE synop_daily_records > 0 OR id = 1
     `
@@ -27,8 +28,22 @@ exports.getStation = async (req, res, next) => {
     if (Number.isInteger(stationId)) {
         const query = `
         SELECT
-            id, name, latitude, longitude
-        FROM imgw.station
+            id, name, latitude, longitude,
+            synop_daily_records,
+            synop_min_date, synop_max_date,
+
+            last_synop_date,
+            last_tmax, last_tmin, last_tavg,
+            yavg, 
+            last_tavg_dev,
+
+            prev_synop_date,
+            prev_tmax,
+            prev_tmin,
+            prev_tavg,
+
+            data_months
+        FROM imgw.station_summary
         WHERE id = $1
         `
         const { rows, rowCount } = await db.query(query, [stationId])
