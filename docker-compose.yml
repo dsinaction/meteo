@@ -6,7 +6,7 @@ services:
             context: ./meteo-db
             dockerfile: Dockerfile
         ports:
-            - 5432:5432
+            - 127.0.0.1:5432:5432
         environment:
             - POSTGRES_USER=${POSTGRES_USER}
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -38,7 +38,7 @@ services:
             context: ./meteo-flow
             dockerfile: Dockerfile
         ports:
-            - 8080:8080
+            - 127.0.0.1:8080:8080
         environment:
             - FLYWAY_USER=${FLYWAY_USER}
             - FLYWAY_PASSWORD=${FLYWAY_PASSWORD}
@@ -58,7 +58,7 @@ services:
             context: ./meteo-api
             dockerfile: Dockerfile
         ports:
-            - 8090:8090
+            - 127.0.0.1:8090:8090
         environment:
             - PGUSER=${METEO_API_PGUSER}
             - PGHOST=${METEO_API_PGHOST}
@@ -77,7 +77,7 @@ services:
             context: ./meteo-app
             dockerfile: Dockerfile.prod
         ports:
-            - 3000:80
+            - 127.0.0.1:3000:80
         environment:
             - METEO_API_URL=${METEO_API_URL}
         container_name: meteo-app
