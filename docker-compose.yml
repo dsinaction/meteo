@@ -15,6 +15,7 @@ services:
         container_name: meteo-db
         networks:
             - meteo-network
+        restart: always
 
     meteo-migrations:
         image: flyway/flyway
@@ -30,6 +31,7 @@ services:
             - meteo-network
         depends_on:
             - meteo-db
+        restart: always
 
     meteo-flow:
         build:
@@ -43,25 +45,13 @@ services:
             - FLYWAY_PLACEHOLDERS_AIRFLOW_USER=${AIRFLOW_DB_USER}
             - FLYWAY_PLACEHOLDERS_AIRFLOW_PASSWORD=${AIRFLOW_DB_PASSWORD}
             - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@meteo-db/meteo
-        container_name: "meteo-flow"
+        container_name: meteo-flow
         networks:
             - meteo-network
         depends_on:
             - meteo-db
             - meteo-migrations
         restart: always
-
-    meteo-app:
-        build:
-            context: ./meteo-app
-            dockerfile: Dockerfile
-        ports:
-            - 5000:5000
-        container_name: "meteo-app"
-        networks:
-            - meteo-network
-        depends_on:
-            - "meteo-db"
 
     meteo-api:
         build:
@@ -70,16 +60,32 @@ services:
         ports:
             - 8090:8090
         environment:
-            - PGUSER=postgres
-            - PGHOST=meteo-db
-            - PGPASSWORD=postgres
-            - PGDATABASE=meteo
-            - PGPORT=5432
+            - PGUSER=${METEO_API_PGUSER}
+            - PGHOST=${METEO_API_PGHOST}
+            - PGPASSWORD=${METEO_API_PGPASSWORD}
+            - PGDATABASE=${METEO_API_PGDATABASE}
+            - PGPORT=${METEO_API_PGPORT}
         container_name: meteo-api
         networks:
-          - meteo-network
+            - meteo-network
         depends_on:
-          - meteo-db
+            - meteo-db
+        restart: always
+
+    meteo-app:
+        build:
+            context: ./meteo-app
+            dockerfile: Dockerfile.prod
+        ports:
+            - 3000:80
+        environment:
+            - METEO_API_URL=${METEO_API_URL}
+        container_name: meteo-app
+        networks:
+            - meteo-network
+        depends_on:
+            - meteo-api
+        restart: always
 
 volumes:
     db-data:

@@ -30,7 +30,7 @@ const DataTable = ({ rows, columns }) => {
         setSort({
             ...sort,
             key: sortKey,
-            isReverse: sort.key == sortKey && !sort.isReverse
+            isReverse: sort.key === sortKey && !sort.isReverse
         });
         setPage(0);
     };

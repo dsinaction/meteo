@@ -1,9 +1,6 @@
-import React from 'react';
 import L from 'leaflet';
-import { Marker, Polygon } from 'react-leaflet';
 import { useMap } from 'react-leaflet';
-import { Container, makeStyles, Grid } from '@material-ui/core';
-
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     normal: {
@@ -13,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white'
     }
 }));
-
 
 const PolygonWithText = ({ station }) => {
     const classes = useStyles();

@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
-    Avatar,
     Box,
     Card,
     CardContent,
@@ -14,7 +13,6 @@ import {
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import Icon from '../../components/Icon';
-import { ArrowUpward } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {

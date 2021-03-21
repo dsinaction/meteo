@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
     AppBar,
-    Badge,
     Box,
     Hidden,
     IconButton,
@@ -30,7 +29,6 @@ const TopBar = ({
     ...rest
 }) => {
     const classes = useStyles();
-    const [notifications] = useState([]);
 
     return (
         <AppBar

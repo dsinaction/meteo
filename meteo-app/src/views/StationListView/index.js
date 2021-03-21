@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, makeStyles, Grid } from '@material-ui/core';
+import { Container, makeStyles, Grid } from '@material-ui/core';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -12,7 +12,6 @@ import StationsTable from './StationsTable';
 import StationsFilterBox from './StationsFilterBox';
 import MeteoCard from '../../components/MeteoCard';
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.dark,
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(3)
     }
 }));
-
 
 const StationListView = () => {
     const classes = useStyles();
