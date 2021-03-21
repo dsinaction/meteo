@@ -1,4 +1,4 @@
-export default ({month}) => {
+export default month => {
     switch (parseInt(month)) {
         case 1: return 'Jan';
         case 2: return 'Feb';

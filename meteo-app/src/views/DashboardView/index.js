@@ -35,7 +35,8 @@ const DashboardView = () => {
             .then(result => result.data.data)
             .then(data => setCountryData({
                 ...data,
-                last_synop_date: new Date(data.last_synop_date).toJSON().slice(0, 7)
+                last_synop_date: new Date(data.last_synop_date).toJSON().slice(0, 7),
+                data_months: data.data_months.sort((a, b) => new Date(a.date) - new Date(b.date))
             }));
     }, []);
 
