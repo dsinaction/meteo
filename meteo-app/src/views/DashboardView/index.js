@@ -58,7 +58,7 @@ const DashboardView = () => {
         <Page className={classes.root} title={t('DashboardView Title')}>
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
-                    <Grid item lg={4} md={4} sm={12} xl={12} xs={12}>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
                         <Temperature
                             title={t('Average temperature in {{date}}', {date: countryData.last_synop_date})}
                             current={countryData.last_tavg}
@@ -67,7 +67,7 @@ const DashboardView = () => {
                             icon='/static/icons/thermometer.svg'
                         />
                     </Grid>
-                    <Grid item lg={4} md={4} sm={12} xl={12} xs={12}>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
                         <Temperature
                             title={t('Max temperature in {{date}}', {date: countryData.last_synop_date})}
                             current={countryData.last_tmax}
@@ -76,7 +76,7 @@ const DashboardView = () => {
                             icon='/static/icons/hot.svg'
                         />
                     </Grid>
-                    <Grid item lg={4} md={4} sm={12} xl={12} xs={12}>
+                    <Grid item lg={4} md={4} sm={12} xs={12}>
                         <Temperature
                             title={t("Min temperature in {{date}}", {date: countryData.last_synop_date})}
                             current={countryData.last_tmin}
@@ -87,7 +87,7 @@ const DashboardView = () => {
                     </Grid>
 
 
-                    <Grid item lg={12} sm={12} xl={3} xs={12}>
+                    <Grid item lg={12} sm={12} xs={12}>
                         <MeteoCard
                             title={t('Average temperature in {{date}} in synop stations', {date: countryData.last_synop_date})}
                         >
@@ -109,7 +109,7 @@ const DashboardView = () => {
                         </MeteoCard>
                     </Grid>
 
-                    <Grid item lg={12} sm={12} xl={3} xs={12}>
+                    <Grid item lg={12} sm={12} xs={12}>
                         <MeteoCard
                             title={t('Average temperature in the same month in the previous years')}
                         >

@@ -60,7 +60,7 @@ const StationListView = () => {
                             <StationsFilterBox searchTerm={searchTerm} onSearch={handleSearch} />
                         </MeteoCard>
                     </Grid>
-                    <Grid item lg={6} md={6} xl={12} xs={12}>
+                    <Grid item lg={6} md={6} xs={12}>
                         <MeteoCard>
                             <MapContainer center={[51.9194, 19.1451]} zoom={6} scrollWheelZoom={true} style={{ height: '600px' }}>
                                 <TileLayer
@@ -77,7 +77,7 @@ const StationListView = () => {
                             </MapContainer>
                         </MeteoCard>
                     </Grid>
-                    <Grid item lg={6} md={6} xl={12} xs={12}>
+                    <Grid item lg={6} md={6} xs={12}>
                         <MeteoCard>
                             <StationsTable stations={searchedStations} />
                         </MeteoCard>
